@@ -4,30 +4,30 @@ import { Principal } from '../auth/principal.service';
 
 @Injectable({ providedIn: 'root' })
 export class LoginService {
-    constructor(private principal: Principal, private authServerProvider: AuthServerProvider) {}
+    constructor(private principal: Principal) {}
 
     login(credentials, callback?) {
         const cb = callback || function() {};
 
         return new Promise((resolve, reject) => {
-            this.authServerProvider.login(credentials).subscribe(
-                data => {
-                    this.principal.identity(true).then(account => {
-                        resolve(data);
-                    });
-                    return cb();
-                },
-                err => {
-                    this.logout();
-                    reject(err);
-                    return cb(err);
-                }
-            );
+            // this.authServerProvider.login(credentials).subscribe(
+            //     data => {
+            //         this.principal.identity(true).then(account => {
+            //             resolve(data);
+            //         });
+            //         return cb();
+            //     },
+            //     err => {
+            //         this.logout();
+            //         reject(err);
+            //         return cb(err);
+            //     }
+            // );
         });
     }
 
     logout() {
-        this.authServerProvider.logout().subscribe();
+        //this.authServerProvider.logout().subscribe();
         this.principal.authenticate(null);
     }
 }

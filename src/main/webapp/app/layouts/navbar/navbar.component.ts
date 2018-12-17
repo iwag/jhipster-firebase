@@ -5,6 +5,7 @@ import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { VERSION } from 'app/app.constants';
 import { Principal, LoginModalService, LoginService } from 'app/core';
 import { ProfileService } from '../profiles/profile.service';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Component({
     selector: 'jhi-navbar',
@@ -21,7 +22,7 @@ export class NavbarComponent implements OnInit {
 
     constructor(
         private loginService: LoginService,
-        private principal: Principal,
+        private afAuth: AngularFireAuth,
         private loginModalService: LoginModalService,
         private profileService: ProfileService,
         private router: Router
@@ -42,7 +43,7 @@ export class NavbarComponent implements OnInit {
     }
 
     isAuthenticated() {
-        return this.principal.isAuthenticated();
+        return this.afAuth.auth.currentUser != null;
     }
 
     login() {
@@ -51,8 +52,9 @@ export class NavbarComponent implements OnInit {
 
     logout() {
         this.collapseNavbar();
-        this.loginService.logout();
+        // this.loginService.logout();
         this.router.navigate(['']);
+        this.afAuth.auth.signOut();
     }
 
     toggleNavbar() {
@@ -60,6 +62,6 @@ export class NavbarComponent implements OnInit {
     }
 
     getImageUrl() {
-        return this.isAuthenticated() ? this.principal.getImageUrl() : null;
+        return null; // this.isAuthenticated() ? this.principal.getImageUrl() : null;
     }
 }

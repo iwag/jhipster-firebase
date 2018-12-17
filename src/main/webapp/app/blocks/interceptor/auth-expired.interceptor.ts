@@ -3,6 +3,6 @@ import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-export class AuthExpiredInterceptor implements HttpInterceptor {
-    constructor(private injector: Injector) {}
-}
+// export class AuthExpiredInterceptor implements HttpInterceptor {
+//     constructor(private injector: Injector) {}
+// }

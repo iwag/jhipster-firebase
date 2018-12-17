@@ -7,7 +7,7 @@ import { NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Ng2Webstorage } from 'ngx-webstorage';
 import { JhiEventManager } from 'ng-jhipster';
 
-import { AuthExpiredInterceptor } from './blocks/interceptor/auth-expired.interceptor';
+//import { AuthExpiredInterceptor } from './blocks/interceptor/auth-expired.interceptor';
 import { ErrorHandlerInterceptor } from './blocks/interceptor/errorhandler.interceptor';
 import { NotificationInterceptor } from './blocks/interceptor/notification.interceptor';
 import { FirestarterSharedModule } from 'app/shared';
@@ -17,8 +17,11 @@ import { FirestarterHomeModule } from './home/home.module';
 import { FirestarterAccountModule } from './account/account.module';
 import { FirestarterEntityModule } from './entities/entity.module';
 import * as moment from 'moment';
+import environment from '../environments/environment';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent, ErrorComponent } from './layouts';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireAuthModule } from '@angular/fire/auth';
 
 @NgModule({
     imports: [
@@ -30,16 +33,18 @@ import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent
         FirestarterHomeModule,
         FirestarterAccountModule,
         // jhipster-needle-angular-add-module JHipster will add new module here
-        FirestarterEntityModule
+        FirestarterEntityModule,
+        AngularFireModule.initializeApp(environment.firebase),
+        AngularFireAuthModule
     ],
     declarations: [JhiMainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, FooterComponent],
     providers: [
-        {
-            provide: HTTP_INTERCEPTORS,
-            useClass: AuthExpiredInterceptor,
-            multi: true,
-            deps: [Injector]
-        },
+        // {
+        //     provide: HTTP_INTERCEPTORS,
+        //     useClass: AuthExpiredInterceptor,
+        //     multi: true,
+        //     deps: [Injector]
+        // },
         {
             provide: HTTP_INTERCEPTORS,
             useClass: ErrorHandlerInterceptor,
