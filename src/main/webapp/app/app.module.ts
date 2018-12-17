@@ -7,14 +7,12 @@ import { NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Ng2Webstorage } from 'ngx-webstorage';
 import { JhiEventManager } from 'ng-jhipster';
 
-//import { AuthExpiredInterceptor } from './blocks/interceptor/auth-expired.interceptor';
 import { ErrorHandlerInterceptor } from './blocks/interceptor/errorhandler.interceptor';
 import { NotificationInterceptor } from './blocks/interceptor/notification.interceptor';
 import { FirestarterSharedModule } from 'app/shared';
 import { FirestarterCoreModule } from 'app/core';
 import { FirestarterAppRoutingModule } from './app-routing.module';
 import { FirestarterHomeModule } from './home/home.module';
-import { FirestarterAccountModule } from './account/account.module';
 import { FirestarterEntityModule } from './entities/entity.module';
 import * as moment from 'moment';
 import environment from '../environments/environment';
@@ -31,7 +29,6 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
         FirestarterSharedModule,
         FirestarterCoreModule,
         FirestarterHomeModule,
-        FirestarterAccountModule,
         // jhipster-needle-angular-add-module JHipster will add new module here
         FirestarterEntityModule,
         AngularFireModule.initializeApp(environment.firebase),

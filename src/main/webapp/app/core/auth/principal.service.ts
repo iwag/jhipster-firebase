@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { AccountService } from './account.service';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { Account } from '../user/account.model';
 
 @Injectable({ providedIn: 'root' })
 export class Principal {
@@ -8,7 +10,7 @@ export class Principal {
     private authenticated = false;
     private authenticationState = new Subject<any>();
 
-    constructor(private account: AccountService) {}
+    constructor(private afAuth: AngularFireAuth) {}
 
     authenticate(identity) {
         this.userIdentity = identity;
@@ -60,28 +62,18 @@ export class Principal {
             return Promise.resolve(this.userIdentity);
         }
 
-        // retrieve the userIdentity data from the server, update the identity object, and then resolve.
-        return this.account
-            .get()
-            .toPromise()
-            .then(response => {
-                const account = response.body;
-                if (account) {
-                    this.userIdentity = account;
-                    this.authenticated = true;
-                } else {
-                    this.userIdentity = null;
-                    this.authenticated = false;
-                }
-                this.authenticationState.next(this.userIdentity);
-                return this.userIdentity;
-            })
-            .catch(err => {
-                this.userIdentity = null;
-                this.authenticated = false;
-                this.authenticationState.next(this.userIdentity);
-                return null;
-            });
+        if (this.afAuth.auth.currentUser) {
+            const user = this.afAuth.auth.currentUser;
+            const account = new Account(true, ['ROLE_USER'], user.email, user.displayName, 'en', '', user.displayName, '');
+
+            this.userIdentity = account;
+            this.authenticated = true;
+        } else {
+            this.userIdentity = null;
+            this.authenticated = false;
+        }
+        this.authenticationState.next(this.userIdentity);
+        return Promise.resolve(this.userIdentity);
     }
 
     isAuthenticated(): boolean {
