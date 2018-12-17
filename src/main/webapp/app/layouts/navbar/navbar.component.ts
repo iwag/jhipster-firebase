@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 import { VERSION } from 'app/app.constants';
-import { Principal, LoginModalService, LoginService } from 'app/core';
+import { Principal, LoginService } from 'app/core';
 import { ProfileService } from '../profiles/profile.service';
 import { AngularFireAuth } from '@angular/fire/auth';
 
@@ -23,7 +23,6 @@ export class NavbarComponent implements OnInit {
     constructor(
         private loginService: LoginService,
         private afAuth: AngularFireAuth,
-        private loginModalService: LoginModalService,
         private profileService: ProfileService,
         private router: Router
     ) {
@@ -46,9 +45,7 @@ export class NavbarComponent implements OnInit {
         return this.afAuth.auth.currentUser != null;
     }
 
-    login() {
-        this.modalRef = this.loginModalService.open();
-    }
+    login() {}
 
     logout() {
         this.collapseNavbar();
